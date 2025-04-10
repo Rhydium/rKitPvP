@@ -4,14 +4,13 @@ import me.rhydium.rKitPvP.commands.KitPvPCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class KitPvPTabCompleter implements TabCompleter {
 
-    private static final List<String> SUB_COMMANDS = Arrays.asList("build", "setspawn");
     private final KitPvPCommand commandHandler;
 
     public KitPvPTabCompleter(KitPvPCommand commandHandler) {
@@ -19,7 +18,7 @@ public class KitPvPTabCompleter implements TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             return commandHandler.getSubCommands().entrySet().stream()
                     .filter(entry -> {

@@ -1,8 +1,6 @@
 package me.rhydium.rKitPvP.managers;
 
 import me.rhydium.rKitPvP.rKitPvP;
-import org.bukkit.Bukkit;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +10,7 @@ public class DatabaseManager {
 
     private final rKitPvP plugin;
     private Connection connection;
-    private DatabaseType databaseType;
+    private final DatabaseType databaseType;
 
     public enum DatabaseType {
         MYSQL, SQLITE
@@ -34,20 +32,20 @@ public class DatabaseManager {
                 String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
                 connection = DriverManager.getConnection(url, username, password);
-                Bukkit.getLogger().info("Connected to MySQL database.");
+                plugin.getLogger().info("Connected to MySQL database.");
             } else if (databaseType == DatabaseType.SQLITE) {
                 String dbPath = plugin.getDataFolder() + "/database.sqlite";
                 String url = "jdbc:sqlite:" + dbPath;
 
                 connection = DriverManager.getConnection(url);
-                Bukkit.getLogger().info("Connected to SQLite database.");
+                plugin.getLogger().info("Connected to SQLite database.");
             }
 
             if (connection != null) {
                 initializeTables();
             }
         } catch (SQLException e) {
-            Bukkit.getLogger().severe("Could not connect to database: " + e.getMessage());
+            plugin.getLogger().severe("Could not connect to database: " + e.getMessage());
         }
     }
 
@@ -61,9 +59,9 @@ public class DatabaseManager {
                     "score INT DEFAULT 0, " +
                     "coins INT DEFAULT 0);";
             statement.execute(createPlayersTable);
-            Bukkit.getLogger().info("Database tables initialized.");
+            plugin.getLogger().info("Database tables initialized.");
         } catch (SQLException e) {
-            Bukkit.getLogger().severe("Could not initialize database: " + e.getMessage());
+            plugin.getLogger().severe("Could not initialize database: " + e.getMessage());
         }
     }
 
@@ -73,7 +71,7 @@ public class DatabaseManager {
                 connect();
             }
         } catch (SQLException e) {
-            Bukkit.getLogger().severe("[MythicaKitPvP] Could not re-establish the database connection: " + e.getMessage());
+            plugin.getLogger().severe("Could not re-establish the database connection: " + e.getMessage());
         }
         return connection;
     }
@@ -82,9 +80,9 @@ public class DatabaseManager {
         if (connection != null) {
             try {
                 connection.close();
-                Bukkit.getLogger().info("Database connection closed.");
+                plugin.getLogger().info("Database connection closed.");
             } catch (SQLException e) {
-                Bukkit.getLogger().severe("Could not close database connection: " + e.getMessage());
+                plugin.getLogger().severe("Could not close database connection: " + e.getMessage());
             }
         }
     }

@@ -1,9 +1,7 @@
 package me.rhydium.rKitPvP.managers;
 
 import me.rhydium.rKitPvP.rKitPvP;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,7 +14,7 @@ import java.util.UUID;
 public class CombatManager {
 
     private final rKitPvP plugin;
-    private final HashMap<UUID, Long> combatTaggedPlayers; // Stores player's UUID and the timestamp when they were last tagged
+    private final HashMap<UUID, Long> combatTaggedPlayers;
     private final Map<UUID, BukkitTask> combatTagTimers = new HashMap<>();
 
     public CombatManager(rKitPvP plugin) {
@@ -27,10 +25,10 @@ public class CombatManager {
     public boolean tagPlayer(Player player) {
         UUID playerId = player.getUniqueId();
         long currentTime = System.currentTimeMillis();
-        long tagDuration = plugin.getConfig().getLong("combat.tag-duration") * 1000; // Convert to milliseconds
+        long tagDuration = plugin.getConfig().getLong("combat.tag-duration") * 1000;
         if (tagDuration <= 0) {
             plugin.getLogger().warning("Invalid combat tag duration: " + tagDuration + "ms. Check your config.yml.");
-            tagDuration = 15000; // Default to 15 seconds if invalid
+            tagDuration = 15000;
         }
         long tagExpiryTime = currentTime + tagDuration;
 
@@ -81,7 +79,6 @@ public class CombatManager {
     private void startCombatTagTimer(Player player) {
         UUID playerId = player.getUniqueId();
 
-        // Cancel any existing timer for the player
         if (combatTagTimers.containsKey(playerId)) {
             combatTagTimers.get(playerId).cancel();
         }
@@ -99,24 +96,18 @@ public class CombatManager {
                 int secondsLeft = (int) Math.ceil(remainingTime / 1000.0);
 
                 if (remainingTime <= 0) {
-                    // Play sound
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
-                    // Send action bar message
-                    String actionBarMessage = ChatColor.translateAlternateColorCodes('&', "&aYou are no longer in combat!");
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBarMessage));
+                    String actionBarMessage = "&aYou are no longer in combat!";
+                    player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(actionBarMessage));
 
-                    // Send chat message
                     String untagMessage = plugin.getConfig().getString("messages.combat-untagged", "&aYou are no longer in combat!");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', untagMessage));
+                    player.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(untagMessage));
 
-                    // Remove combat tag
                     removeTag(player);
 
-                    // Update scoreboard
                     plugin.getScoreboardManager().updateScoreboard(player);
 
-                    // Cancel the timer
                     cancel();
                     combatTagTimers.remove(playerId);
                     return;
@@ -126,12 +117,11 @@ public class CombatManager {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
                 }
 
-                String actionBarMessage = ChatColor.translateAlternateColorCodes('&', "&cIn combat: " + secondsLeft + " seconds!");
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBarMessage));
+                String actionBarMessage = "&cIn combat: " + secondsLeft + " seconds!";
+                player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(actionBarMessage));
             }
-        }.runTaskTimer(plugin, 0L, 20L); // Update every second
+        }.runTaskTimer(plugin, 0L, 20L);
 
-        // Store the task so we can cancel it later if needed
         combatTagTimers.put(playerId, task);
     }
 }

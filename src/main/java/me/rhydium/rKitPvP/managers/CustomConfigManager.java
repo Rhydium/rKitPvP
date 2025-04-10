@@ -1,7 +1,6 @@
 package me.rhydium.rKitPvP.managers;
 
 import me.rhydium.rKitPvP.rKitPvP;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -25,15 +24,21 @@ public class CustomConfigManager {
         configFile = new File(plugin.getDataFolder(), fileName);
 
         if (!configFile.exists()) {
-            configFile.getParentFile().mkdirs();
+            File parentDir = configFile.getParentFile();
+            if (!parentDir.exists() && !parentDir.mkdirs()) {
+                plugin.getLogger().warning("Failed to create the parent directory for the custom config file: " + fileName);
+                return;
+            }
+
             try {
                 plugin.saveResource(fileName, false);
             } catch (IllegalArgumentException e) {
-                // fallback: maak leeg bestand als resource niet bestaat
                 try {
-                    configFile.createNewFile();
+                    if (!configFile.createNewFile()) {
+                        plugin.getLogger().warning("Failed to create a new custom config file: " + fileName);
+                    }
                 } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    plugin.getLogger().severe("An error occurred while trying to create a custom config: " + ioException.getMessage());
                 }
             }
         }
@@ -49,7 +54,7 @@ public class CustomConfigManager {
         try {
             config.save(configFile);
         } catch (IOException e) {
-            Bukkit.getLogger().severe("An error occurred while trying to save a custom config: " + e.getMessage());
+            plugin.getLogger().severe("An error occurred while trying to save a custom config: " + e.getMessage());
         }
     }
 }

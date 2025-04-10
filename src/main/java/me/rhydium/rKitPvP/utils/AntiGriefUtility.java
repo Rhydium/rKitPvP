@@ -44,9 +44,8 @@ public class AntiGriefUtility implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        // Check if the entity is a player and the damage cause is falling
         if (event.getEntity() instanceof Player && event.getCause() == EntityDamageEvent.DamageCause.FALL) {
-            event.setCancelled(true); // Cancel the fall damage
+            event.setCancelled(true);
         }
     }
 

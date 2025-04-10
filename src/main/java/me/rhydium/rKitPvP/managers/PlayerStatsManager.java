@@ -1,6 +1,6 @@
 package me.rhydium.rKitPvP.managers;
 
-import org.bukkit.Bukkit;
+import me.rhydium.rKitPvP.rKitPvP;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -12,10 +12,12 @@ import java.util.UUID;
 
 public class PlayerStatsManager {
 
+    private final rKitPvP plugin;
     private final HashMap<UUID, PlayerStats> playerStats = new HashMap<>();
     private final DatabaseManager databaseManager;
 
-    public PlayerStatsManager(DatabaseManager databaseManager) {
+    public PlayerStatsManager(rKitPvP plugin, DatabaseManager databaseManager) {
+        this.plugin = plugin;
         this.databaseManager = databaseManager;
     }
 
@@ -43,9 +45,9 @@ public class PlayerStatsManager {
         PlayerStats stats = getPlayerStats(player);
         if (stats.deaths == 0) {
             if (stats.kills == 0) {
-                return 0.0; // No kills or deaths
+                return 0.0;
             } else {
-                return (double) stats.kills; // Deaths are zero, KDR equals kills
+                return (double) stats.kills;
             }
         }
         return (double) stats.kills / stats.deaths;
@@ -102,7 +104,7 @@ public class PlayerStatsManager {
                 savePlayerStatsToDatabase(player);
             }
         } catch (SQLException e) {
-            Bukkit.getLogger().severe("Could not load player stats for " + player.getName() + ": " + e.getMessage());
+            plugin.getLogger().severe("Could not load player stats for " + player.getName() + ": " + e.getMessage());
         }
     }
 
@@ -118,7 +120,7 @@ public class PlayerStatsManager {
             statement.setInt(5, stats.coins);
             statement.executeUpdate();
         } catch (SQLException e) {
-            Bukkit.getLogger().severe("Could not save player stats for " + player.getName() + ": " + e.getMessage());
+            plugin.getLogger().severe("Could not save player stats for " + player.getName() + ": " + e.getMessage());
         }
     }
 
@@ -133,7 +135,7 @@ public class PlayerStatsManager {
             statement.setString(4, playerId.toString());
             statement.executeUpdate();
         } catch (SQLException e) {
-            Bukkit.getLogger().severe("Could not update player stats for " + player.getName() + ": " + e.getMessage());
+            plugin.getLogger().severe("Could not update player stats for " + player.getName() + ": " + e.getMessage());
         }
     }
 

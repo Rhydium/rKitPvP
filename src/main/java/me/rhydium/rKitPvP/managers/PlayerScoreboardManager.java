@@ -1,8 +1,11 @@
 package me.rhydium.rKitPvP.managers;
 
 import me.rhydium.rKitPvP.rKitPvP;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
@@ -25,16 +28,13 @@ public class PlayerScoreboardManager {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
 
-        Objective objective = board.registerNewObjective("kitpvp", "dummy", ChatColor.RED + "" + ChatColor.BOLD + "Mythica KitPvP");
+        Objective objective = board.registerNewObjective("kitpvp", Criteria.DUMMY, Component.text("rKitPvP").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        // Initialize scoreboard entries
         updateScoreboard(player, board);
 
-        // Assign the scoreboard to the player
         player.setScoreboard(board);
 
-        // Store the scoreboard for future updates
         playerScoreboards.put(player.getUniqueId(), board);
     }
 
@@ -50,33 +50,29 @@ public class PlayerScoreboardManager {
         }
     }
 
+    @SuppressWarnings("deprecation") // Temporary fix for deprecation warnings as there is no good alternative for scoreboard entries.
     private void updateScoreboard(Player player, Scoreboard board) {
         Objective objective = board.getObjective("kitpvp");
         if (objective == null) {
             return;
         }
 
-        // Clear existing entries
         for (String entry : board.getEntries()) {
             board.resetScores(entry);
         }
 
-        // Generate unique empty lines
         String emptyLine1 = ChatColor.RESET.toString() + ChatColor.WHITE + " ";
         String emptyLine2 = ChatColor.RESET.toString() + ChatColor.WHITE + "  ";
         String emptyLine3 = ChatColor.RESET.toString() + ChatColor.WHITE + "   ";
         String emptyLine4 = ChatColor.RESET.toString() + ChatColor.WHITE + "    ";
 
-        // Get actual stats
         int kills = plugin.getStatsManager().getKills(player);
         int deaths = plugin.getStatsManager().getDeaths(player);
         double kdr = plugin.getStatsManager().getKDR(player);
         int coins = plugin.getStatsManager().getCoins(player);
 
-        // Format KDR to display two decimal places, even if zero
         String formattedKDR = kdrFormat.format(kdr);
 
-        // Build the scoreboard entries
         Map<Integer, String> entries = new HashMap<>();
 
         entries.put(14, emptyLine1);
@@ -91,14 +87,12 @@ public class PlayerScoreboardManager {
         entries.put(5, ChatColor.YELLOW + "Coins:");
         entries.put(4, ChatColor.WHITE + String.valueOf(coins) + "    ");
         entries.put(3, emptyLine4);
-        entries.put(2, ChatColor.YELLOW + "play.mythicamc.com");
+        entries.put(2, ChatColor.YELLOW + "play.rkitpvp.com");
 
-        // Set the scores
         for (Map.Entry<Integer, String> entry : entries.entrySet()) {
             String entryText = entry.getValue();
             int scoreValue = entry.getKey();
 
-            // Create the score entry
             Score score = objective.getScore(entryText);
             score.setScore(scoreValue);
         }
@@ -112,6 +106,6 @@ public class PlayerScoreboardManager {
                     updateScoreboard(player);
                 }
             }
-        }, 0L, 20L); // Update every second
+        }, 0L, 20L);
     }
 }

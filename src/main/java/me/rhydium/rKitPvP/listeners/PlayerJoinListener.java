@@ -19,16 +19,10 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        // Initialize stats
         plugin.getStatsManager().initializePlayerStats(player);
-
-        // Create scoreboard
         plugin.getScoreboardManager().createScoreboard(player);
-
-        // Update scoreboard
         plugin.getScoreboardManager().updateScoreboard(player);
 
-        // Give player a chest item for kit selection
         KitSelectorGUI.givePlayerKitSelectorItem(player);
     }
 }

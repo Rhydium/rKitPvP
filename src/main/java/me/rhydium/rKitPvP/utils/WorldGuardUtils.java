@@ -25,14 +25,12 @@ public class WorldGuardUtils {
         RegionManager regions = container.get(BukkitAdapter.adapt(player.getWorld()));
         if (regions == null) return false;
 
-        // Convert the player's location to BlockVector3
         BlockVector3 blockVector = BlockVector3.at(
                 player.getLocation().getBlockX(),
                 player.getLocation().getBlockY(),
                 player.getLocation().getBlockZ()
         );
 
-        // Check applicable regions
         ApplicableRegionSet applicableRegions = regions.getApplicableRegions(blockVector);
         for (ProtectedRegion region : applicableRegions) {
             if (region.getId().equalsIgnoreCase(regionName)) {
