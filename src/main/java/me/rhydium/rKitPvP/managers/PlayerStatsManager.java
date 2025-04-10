@@ -71,7 +71,7 @@ public class PlayerStatsManager {
 
     public void setCoins(Player player, int amount) {
         PlayerStats stats = getPlayerStats(player);
-        stats.coins = Math.max(0, stats.coins - amount);
+        stats.coins = Math.max(0, amount);
         updateStatsInDatabase(player);
     }
 
