@@ -1,0 +1,16 @@
+name: rKitPvP
+version: '1.0-SNAPSHOT'
+main: com.mythicamc.rKitPvP.rKitPvP
+api-version: '1.21'
+authors: [ Rhydium <@rhydium> ]
+description: A lightweight, fully customizable KitPvP plugin for Minecraft servers.
+depend: [ PlaceholderAPI, WorldEdit, WorldGuard ]
+commands:
+  kitpvp:
+    description: Main KitPvP command with subcommands.
+    usage: /kitpvp <build|setspawn>
+    permission: kitpvp.use
+  spawn:
+    description: Teleports the player to spawn.
+    usage: /spawn
+    permission: kitpvp.player.spawn
