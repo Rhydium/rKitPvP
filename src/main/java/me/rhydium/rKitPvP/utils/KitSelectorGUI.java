@@ -1,21 +1,20 @@
 package me.rhydium.rKitPvP.utils;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import me.rhydium.rKitPvP.rKitPvP;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -23,26 +22,35 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class KitSelectorGUI implements Listener {
 
+    private final rKitPvP plugin;
     private static final Map<String, FileConfiguration> kits = new HashMap<>();
 
     public KitSelectorGUI(rKitPvP plugin) {
+        this.plugin = plugin;
         loadKits(plugin);
     }
 
-    public static void loadKits(rKitPvP plugin) {
+    public void loadKits(rKitPvP plugin) {
         File kitsFolder = new File(plugin.getDataFolder(), "kits");
         if (!kitsFolder.exists()) {
-            kitsFolder.mkdirs();
-            createDefaultKit(kitsFolder);
+            if (kitsFolder.mkdirs()) {
+                createDefaultKit(kitsFolder);
+            } else {
+                plugin.getLogger().severe("Failed to create kits directory.");
+                return;
+            }
         }
 
         File[] kitFiles = kitsFolder.listFiles((dir, name) -> name.endsWith(".yml"));
@@ -55,7 +63,7 @@ public class KitSelectorGUI implements Listener {
         }
     }
 
-    private static void createDefaultKit(File kitsFolder) {
+    private void createDefaultKit(File kitsFolder) {
         File defaultKitFile = new File(kitsFolder, "default_kit.yml");
         if (!defaultKitFile.exists()) {
             FileConfiguration defaultKit = YamlConfiguration.loadConfiguration(defaultKitFile);
@@ -71,7 +79,7 @@ public class KitSelectorGUI implements Listener {
             sword.put("amount", 1);
             sword.put("name", "§bStarter Sword");
             sword.put("lore", List.of("§7A trusty iron sword."));
-            sword.put("enchantments", Map.of("DAMAGE_ALL", 1));
+            sword.put("enchantments", Map.of("SHARPNESS", 1));
 
             Map<String, Object> apple = new HashMap<>();
             apple.put("material", "GOLDEN_APPLE");
@@ -81,7 +89,7 @@ public class KitSelectorGUI implements Listener {
 
             // Potions
             Map<String, Object> speedPotion = new HashMap<>();
-            speedPotion.put("type", "SPEED");
+            speedPotion.put("type", "SWIFTNESS");
             speedPotion.put("duration", 600);
             speedPotion.put("amplifier", 1);
             speedPotion.put("ambient", false);
@@ -92,12 +100,12 @@ public class KitSelectorGUI implements Listener {
             try {
                 defaultKit.save(defaultKitFile);
             } catch (IOException e) {
-                e.printStackTrace();
+                plugin.getLogger().severe("Failed to create default kit file: " + e.getMessage());
             }
         }
     }
 
-    public static void openKitSelector(Player player) {
+    public void openKitSelector(Player player) {
         Inventory kitSelector = Bukkit.createInventory(null, 54, Component.text("Select your Kit!", NamedTextColor.GOLD));
 
         // Add gray stained-glass panes as border
@@ -178,14 +186,15 @@ public class KitSelectorGUI implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        if (item != null && item.getType() == Material.CHEST && item.getItemMeta() != null && ChatColor.translateAlternateColorCodes('&', "&6&lKit Selector").equals(item.getItemMeta().getDisplayName())) {
+//        if (item != null && item.getType() == Material.CHEST && item.getItemMeta() != null && ChatColor.translateAlternateColorCodes('&', "&6&lKit Selector").equals(item.getItemMeta().getDisplayName())) {
+        if (item != null && item.getType() == Material.CHEST && item.getItemMeta() != null && LegacyComponentSerializer.legacyAmpersand().deserialize("&6&lKit Selector").equals(item.getItemMeta().displayName())) {
             openKitSelector(player);
             event.setCancelled(true);
         }
     }
 
     @EventHandler
-    public static void handleInventoryClick(InventoryClickEvent event) {
+    public void handleInventoryClick(InventoryClickEvent event) {
         if (event.getView().title().equals(LegacyComponentSerializer.legacyAmpersand().deserialize("&6Select your Kit!"))) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
@@ -226,16 +235,44 @@ public class KitSelectorGUI implements Listener {
                             ItemMeta itemMeta = item.getItemMeta();
                             if (itemMeta != null) {
                                 if (itemData.containsKey("name")) {
-                                    itemMeta.setDisplayName((String) itemData.get("name"));
+//                                    itemMeta.setDisplayName((String) itemData.get("name"));
+                                    itemMeta.displayName(LegacyComponentSerializer.legacyAmpersand().deserialize((String) itemData.get("name")));
                                 }
                                 if (itemData.containsKey("lore")) {
-                                    itemMeta.setLore((List<String>) itemData.get("lore"));
+                                    Object loreObj = itemData.get("lore");
+                                    List<String> legacyLore = new ArrayList<>();
+
+                                    if (loreObj instanceof List<?> rawList) {
+                                        for (Object line : rawList) {
+                                            if (line instanceof String str) {
+                                                legacyLore.add(str);
+                                            }
+                                        }
+                                    }
+                                    List<TextComponent> newLore = legacyLore.stream()
+                                            .map(line -> LegacyComponentSerializer.legacyAmpersand().deserialize(line))
+                                            .toList();
+                                    itemMeta.lore(newLore);
                                 }
                                 if (itemData.containsKey("enchantments")) {
-                                    Map<String, Integer> enchantments = (Map<String, Integer>) itemData.get("enchantments");
-                                    enchantments.forEach((enchantment, level) -> {
-                                        itemMeta.addEnchant(org.bukkit.enchantments.Enchantment.getByName(enchantment), level, true);
-                                    });
+                                    Object enchObj = itemData.get("enchantments");
+
+                                    if (enchObj instanceof Map<?, ?> rawMap) {
+                                        Registry<@NotNull Enchantment> enchantmentRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+
+                                        for (Map.Entry<?, ?> entry : rawMap.entrySet()) {
+                                            if (entry.getKey() instanceof String enchantmentKey && entry.getValue() instanceof Number levelNumber) {
+                                                NamespacedKey enchantmentNameSpaceKey = NamespacedKey.minecraft(enchantmentKey.toLowerCase());
+                                                Enchantment enchantment = enchantmentRegistry.get(enchantmentNameSpaceKey);
+
+                                                if (enchantment != null) {
+                                                    itemMeta.addEnchant(enchantment, levelNumber.intValue(), true);
+                                                } else {
+                                                    plugin.getLogger().warning("Invalid enchantment: " + enchantmentKey);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 item.setItemMeta(itemMeta);
                             }
@@ -246,27 +283,52 @@ public class KitSelectorGUI implements Listener {
 
                         } catch (Exception e) {
                             player.sendMessage("§cError adding item to inventory.");
-                            e.printStackTrace();
+                            plugin.getLogger().warning("Error adding item to inventory: " + e.getMessage());
                         }
                     }
 
                     // Apply potion effects if any
                     List<Map<?, ?>> potions = selectedKit.getMapList("potions");
+
+                    Registry<@NotNull PotionType> potionRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.POTION);
                     for (Map<?, ?> potionData : potions) {
-                        PotionEffectType effectType = PotionEffectType.getByName((String) potionData.get("type"));
-                        if (effectType == null) {
-                            player.sendMessage("§cInvalid potion effect type in kit: " + potionData.get("type"));
+                        Object typeObj = potionData.get("type");
+                        if (!(typeObj instanceof String typeStr)) {
+                            player.sendMessage("§cInvalid potion effect type (not a string).");
                             continue;
                         }
 
-                        int duration = potionData.containsKey("duration") ? ((Number) potionData.get("duration")).intValue() : 200;
-                        int amplifier = potionData.containsKey("amplifier") ? ((Number) potionData.get("amplifier")).intValue() : 1;
-                        boolean ambient = potionData.containsKey("ambient") ? (Boolean) potionData.get("ambient") : false;
-                        boolean particles = potionData.containsKey("particles") ? (Boolean) potionData.get("particles") : true;
+                        NamespacedKey potionEffectNamespacedKey = NamespacedKey.minecraft(typeStr.toLowerCase());
+                        PotionType potionType = potionRegistry.get(potionEffectNamespacedKey);
 
-                        PotionEffect potionEffect = new PotionEffect(effectType, duration, amplifier, ambient, particles);
-                        player.addPotionEffect(potionEffect);
-                        player.sendMessage("§aAdded potion effect: " + effectType.getName());
+                        if (potionType == null) {
+                            player.sendMessage("§cInvalid potion type in kit: " + typeStr);
+                            continue;
+                        }
+
+                        for (PotionEffect effect : potionType.getPotionEffects()) {
+                            PotionEffectType type = effect.getType();
+
+                            int duration = potionData.containsKey("duration")
+                                    ? ((Number) potionData.get("duration")).intValue()
+                                    : effect.getDuration(); // fallback naar originele waarde
+
+                            int amplifier = potionData.containsKey("amplifier")
+                                    ? ((Number) potionData.get("amplifier")).intValue()
+                                    : effect.getAmplifier(); // fallback naar originele waarde
+
+                            boolean ambient = potionData.containsKey("ambient")
+                                    ? (Boolean) potionData.get("ambient")
+                                    : effect.isAmbient();
+
+                            boolean particles = potionData.containsKey("particles")
+                                    ? (Boolean) potionData.get("particles")
+                                    : effect.hasParticles();
+
+                            PotionEffect customEffect = new PotionEffect(type, duration, amplifier, ambient, particles);
+                            player.addPotionEffect(customEffect);
+                            player.sendMessage("§aAdded potion effect: " + type.translationKey());
+                        }
                     }
 
                     player.sendMessage("§aKit selected successfully!");
@@ -280,14 +342,10 @@ public class KitSelectorGUI implements Listener {
         ItemStack kitSelector = new ItemStack(Material.CHEST);
         ItemMeta meta = kitSelector.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6&lKit Selector"));
+            meta.displayName(LegacyComponentSerializer.legacyAmpersand().deserialize("&6&lKit Selector"));
             kitSelector.setItemMeta(meta);
         }
 
         player.getInventory().setItem(0, kitSelector);
-    }
-
-    public static void handleInventoryClose(InventoryCloseEvent event) {
-        // Optionally handle inventory close events if needed
     }
 }

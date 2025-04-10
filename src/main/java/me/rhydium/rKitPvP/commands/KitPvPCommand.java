@@ -15,7 +15,7 @@ public class KitPvPCommand implements CommandExecutor {
     private final Map<String, SubCommand> subCommands = new HashMap<>();
 
     public KitPvPCommand(rKitPvP plugin) {
-        subCommands.put("build", new BuildCommand(plugin));
+        subCommands.put("build", new BuildCommand());
         subCommands.put("setspawn", new SetSpawnCommand(plugin));
     }
 
