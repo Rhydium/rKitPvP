@@ -24,10 +24,8 @@ public final class rKitPvP extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Save the default config if it doesn't exist
         saveDefaultConfig();
 
-        // Initialize DatabaseManager
         String dbTypeString = getConfig().getString("database.type");
         DatabaseManager.DatabaseType dbType = (dbTypeString != null && dbTypeString.equalsIgnoreCase("mysql"))
                 ? DatabaseManager.DatabaseType.MYSQL
@@ -35,22 +33,17 @@ public final class rKitPvP extends JavaPlugin {
         databaseManager = new DatabaseManager(this, dbType);
         databaseManager.connect();
 
-        // Initialize other managers
         combatManager = new CombatManager(this);
         statsManager = new PlayerStatsManager(this, databaseManager);
         scoreboardManager = new PlayerScoreboardManager(this);
         spawnManager = new SpawnManager(this);
 
-        // Initialize custom config managers
         spawnConfigManager = new CustomConfigManager(this, "spawn.yml");
 
-        // Start the scoreboard updater
         scoreboardManager.startScoreboardUpdater();
 
-        // Register commands
         registerCommands();
 
-        // Register event listeners
         registerListeners();
 
         for (Player online : getServer().getOnlinePlayers()) {
@@ -59,7 +52,6 @@ public final class rKitPvP extends JavaPlugin {
             scoreboardManager.updateScoreboard(online);
         }
 
-        // Tell console we're running!
         getLogger().info("KitPvP has been enabled.");
     }
 
