@@ -1,17 +1,16 @@
-package com.mythicamc.rKitPvP.listeners;
+package me.rhydium.rKitPvP.listeners;
 
-import com.mythicamc.rKitPvP.commands.SpawnCommand;
-import com.mythicamc.rKitPvP.managers.CombatManager;
-import com.mythicamc.rKitPvP.rKitPvP;
-import com.mythicamc.rKitPvP.utils.KitSelectorGUI;
-import com.mythicamc.rKitPvP.utils.WorldGuardUtils;
+import me.rhydium.rKitPvP.commands.SpawnCommand;
+import me.rhydium.rKitPvP.managers.CombatManager;
+import me.rhydium.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.utils.KitSelectorGUI;
+import me.rhydium.rKitPvP.utils.WorldGuardUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

@@ -1,7 +1,7 @@
-package com.mythicamc.rKitPvP.listeners;
+package me.rhydium.rKitPvP.listeners;
 
-import com.mythicamc.rKitPvP.rKitPvP;
-import com.mythicamc.rKitPvP.utils.KitSelectorGUI;
+import me.rhydium.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.utils.KitSelectorGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.listeners;
+package me.rhydium.rKitPvP.listeners;
 
-import com.mythicamc.rKitPvP.managers.CombatManager;
+import me.rhydium.rKitPvP.managers.CombatManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;

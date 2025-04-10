@@ -1,14 +1,14 @@
-package com.mythicamc.rKitPvP;
+package me.rhydium.rKitPvP;
 
-import com.mythicamc.rKitPvP.commands.KitPvPCommand;
-import com.mythicamc.rKitPvP.commands.SpawnCommand;
-import com.mythicamc.rKitPvP.listeners.PlayerJoinListener;
-import com.mythicamc.rKitPvP.listeners.PlayerQuitListener;
-import com.mythicamc.rKitPvP.listeners.PvPListener;
-import com.mythicamc.rKitPvP.managers.*;
-import com.mythicamc.rKitPvP.utils.AntiGriefUtility;
-import com.mythicamc.rKitPvP.utils.KitPvPTabCompleter;
-import com.mythicamc.rKitPvP.utils.KitSelectorGUI;
+import me.rhydium.rKitPvP.commands.KitPvPCommand;
+import me.rhydium.rKitPvP.commands.SpawnCommand;
+import me.rhydium.rKitPvP.listeners.PlayerJoinListener;
+import me.rhydium.rKitPvP.listeners.PlayerQuitListener;
+import me.rhydium.rKitPvP.listeners.PvPListener;
+import me.rhydium.rKitPvP.managers.*;
+import me.rhydium.rKitPvP.utils.AntiGriefUtility;
+import me.rhydium.rKitPvP.utils.KitPvPTabCompleter;
+import me.rhydium.rKitPvP.utils.KitSelectorGUI;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 

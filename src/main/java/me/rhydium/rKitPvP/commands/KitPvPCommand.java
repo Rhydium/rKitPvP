@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.commands;
+package me.rhydium.rKitPvP.commands;
 
-import com.mythicamc.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.rKitPvP;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

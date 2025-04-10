@@ -1,4 +1,4 @@
-package com.mythicamc.rKitPvP.utils;
+package me.rhydium.rKitPvP.utils;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

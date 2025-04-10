@@ -1,8 +1,8 @@
-package com.mythicamc.rKitPvP.listeners;
+package me.rhydium.rKitPvP.listeners;
 
-import com.mythicamc.rKitPvP.managers.CombatManager;
-import com.mythicamc.rKitPvP.managers.PlayerStatsManager;
-import com.mythicamc.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.managers.CombatManager;
+import me.rhydium.rKitPvP.managers.PlayerStatsManager;
+import me.rhydium.rKitPvP.rKitPvP;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

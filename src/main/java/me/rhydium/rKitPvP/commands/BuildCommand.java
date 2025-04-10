@@ -1,7 +1,7 @@
-package com.mythicamc.rKitPvP.commands;
+package me.rhydium.rKitPvP.commands;
 
-import com.mythicamc.rKitPvP.rKitPvP;
-import com.mythicamc.rKitPvP.utils.AntiGriefUtility;
+import me.rhydium.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.utils.AntiGriefUtility;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

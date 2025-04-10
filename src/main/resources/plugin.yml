@@ -1,6 +1,6 @@
 name: rKitPvP
 version: '1.0-SNAPSHOT'
-main: com.mythicamc.rKitPvP.rKitPvP
+main: me.rhydium.rKitPvP.rKitPvP
 api-version: '1.21'
 authors: [ Rhydium <@rhydium> ]
 description: A lightweight, fully customizable KitPvP plugin for Minecraft servers.

@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.commands;
+package me.rhydium.rKitPvP.commands;
 
-import com.mythicamc.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.rKitPvP;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;

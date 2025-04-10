@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.managers;
+package me.rhydium.rKitPvP.managers;
 
-import com.mythicamc.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.rKitPvP;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;

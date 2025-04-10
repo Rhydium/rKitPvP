@@ -1,4 +1,4 @@
-package com.mythicamc.rKitPvP.managers;
+package me.rhydium.rKitPvP.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

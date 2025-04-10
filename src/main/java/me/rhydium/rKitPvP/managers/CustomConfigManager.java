@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.managers;
+package me.rhydium.rKitPvP.managers;
 
-import com.mythicamc.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.rKitPvP;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

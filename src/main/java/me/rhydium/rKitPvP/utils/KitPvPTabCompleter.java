@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.utils;
+package me.rhydium.rKitPvP.utils;
 
-import com.mythicamc.rKitPvP.commands.KitPvPCommand;
+import me.rhydium.rKitPvP.commands.KitPvPCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

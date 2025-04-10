@@ -1,6 +1,6 @@
-package com.mythicamc.rKitPvP.utils;
+package me.rhydium.rKitPvP.utils;
 
-import com.mythicamc.rKitPvP.rKitPvP;
+import me.rhydium.rKitPvP.rKitPvP;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
