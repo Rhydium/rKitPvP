@@ -2,6 +2,7 @@ package me.rhydium.rKitPvP.listeners;
 
 import me.rhydium.rKitPvP.rKitPvP;
 import me.rhydium.rKitPvP.utils.KitSelectorGUI;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +23,9 @@ public class PlayerJoinListener implements Listener {
         plugin.getStatsManager().initializePlayerStats(player);
         plugin.getScoreboardManager().createScoreboard(player);
         plugin.getScoreboardManager().updateScoreboard(player);
+
+        Location spawnLocation = plugin.getSpawnManager().getSpawnLocation();
+        player.teleport(spawnLocation);
 
         KitSelectorGUI.givePlayerKitSelectorItem(player);
     }

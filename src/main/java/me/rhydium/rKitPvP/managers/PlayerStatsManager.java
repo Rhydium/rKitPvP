@@ -47,7 +47,7 @@ public class PlayerStatsManager {
             if (stats.kills == 0) {
                 return 0.0;
             } else {
-                return (double) stats.kills;
+                return stats.kills;
             }
         }
         return (double) stats.kills / stats.deaths;

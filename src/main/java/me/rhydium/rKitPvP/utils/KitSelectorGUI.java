@@ -186,7 +186,7 @@ public class KitSelectorGUI implements Listener {
 
     @EventHandler
     public static void handleInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals(ChatColor.translateAlternateColorCodes('&', "&6Select your Kit!"))) {
+        if (event.getView().title().equals(LegacyComponentSerializer.legacyAmpersand().deserialize("&6Select your Kit!"))) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();

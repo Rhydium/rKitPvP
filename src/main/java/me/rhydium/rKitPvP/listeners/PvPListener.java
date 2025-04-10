@@ -1,6 +1,5 @@
 package me.rhydium.rKitPvP.listeners;
 
-import me.rhydium.rKitPvP.commands.SpawnCommand;
 import me.rhydium.rKitPvP.managers.CombatManager;
 import me.rhydium.rKitPvP.rKitPvP;
 import me.rhydium.rKitPvP.utils.KitSelectorGUI;
@@ -20,7 +19,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.time.Duration;
 
@@ -28,12 +26,10 @@ public class PvPListener implements Listener {
 
     private final rKitPvP plugin;
     private final CombatManager combatManager;
-    private final SpawnCommand spawnCommand;
 
-    public PvPListener(rKitPvP plugin, SpawnCommand spawnCommand) {
+    public PvPListener(rKitPvP plugin) {
         this.plugin = plugin;
         this.combatManager = plugin.getCombatManager();
-        this.spawnCommand = spawnCommand;
     }
 
     @EventHandler
@@ -108,7 +104,7 @@ public class PvPListener implements Listener {
 
         player.setGameMode(GameMode.SPECTATOR);
 
-        BukkitTask task = new BukkitRunnable() {
+        new BukkitRunnable() {
             int timeLeft = countdownTime;
 
             @Override
@@ -122,7 +118,7 @@ public class PvPListener implements Listener {
                 } else {
                     player.setGameMode(GameMode.SURVIVAL);
 
-                    Location respawnLocation = spawnCommand.getSpawnLocation();
+                    Location respawnLocation = plugin.getSpawnManager().getSpawnLocation();
                     player.teleport(respawnLocation);
 
                     KitSelectorGUI.givePlayerKitSelectorItem(player);

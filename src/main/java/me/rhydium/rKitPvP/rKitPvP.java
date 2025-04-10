@@ -19,6 +19,7 @@ public final class rKitPvP extends JavaPlugin {
     private PlayerStatsManager statsManager;
     private DatabaseManager databaseManager;
     private CustomConfigManager spawnConfigManager;
+    private SpawnManager spawnManager;
 
     @Override
     public void onEnable() {
@@ -26,14 +27,18 @@ public final class rKitPvP extends JavaPlugin {
         saveDefaultConfig();
 
         // Initialize DatabaseManager
-        DatabaseManager.DatabaseType dbType = getConfig().getString("database.type").equalsIgnoreCase("mysql") ? DatabaseManager.DatabaseType.MYSQL : DatabaseManager.DatabaseType.SQLITE;
+        String dbTypeString = getConfig().getString("database.type");
+        DatabaseManager.DatabaseType dbType = (dbTypeString != null && dbTypeString.equalsIgnoreCase("mysql"))
+                ? DatabaseManager.DatabaseType.MYSQL
+                : DatabaseManager.DatabaseType.SQLITE;
         databaseManager = new DatabaseManager(this, dbType);
         databaseManager.connect();
 
         // Initialize other managers
         combatManager = new CombatManager(this);
-        statsManager = new PlayerStatsManager(databaseManager);
+        statsManager = new PlayerStatsManager(this, databaseManager);
         scoreboardManager = new PlayerScoreboardManager(this);
+        spawnManager = new SpawnManager(this);
 
         // Initialize custom config managers
         spawnConfigManager = new CustomConfigManager(this, "spawn.yml");
@@ -81,7 +86,7 @@ public final class rKitPvP extends JavaPlugin {
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new PvPListener(this, new SpawnCommand(this)), this);
+        getServer().getPluginManager().registerEvents(new PvPListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
         getServer().getPluginManager().registerEvents(new KitSelectorGUI(this), this);
         getServer().getPluginManager().registerEvents(new AntiGriefUtility(), this);
@@ -103,8 +108,11 @@ public final class rKitPvP extends JavaPlugin {
         return databaseManager;
     }
 
-    // Custom configs
     public CustomConfigManager getSpawnConfigManager() {
         return spawnConfigManager;
+    }
+
+    public SpawnManager getSpawnManager() {
+        return spawnManager;
     }
 }

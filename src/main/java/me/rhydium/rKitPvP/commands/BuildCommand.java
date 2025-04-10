@@ -1,14 +1,11 @@
 package me.rhydium.rKitPvP.commands;
 
-import me.rhydium.rKitPvP.rKitPvP;
 import me.rhydium.rKitPvP.utils.AntiGriefUtility;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public class BuildCommand implements KitPvPCommand.SubCommand {
-
-    public BuildCommand(rKitPvP plugin) {}
 
     @Override
     public String getPermission() {
