@@ -1,0 +1,48 @@
+name: "✨ Feature request"
+description: Suggest a new idea or improvement for rKitPvP
+title: "[FEATURE] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve rKitPvP! Please describe your idea in detail.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short description
+      placeholder: "e.g. Add a kill streak reward system"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why is this feature important?
+      placeholder: "Explain the use case or what problem it solves."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Describe the solution you'd like
+      placeholder: |
+        Describe how the feature would work from a player's or admin's perspective.
+        If possible, describe configuration options or permissions.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: "Have you thought of any workarounds or other approaches?"
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: How complex do you think this feature is to implement?
+      options:
+        - Low – Should be easy to implement
+        - Medium – May require some extra logic
+        - High – Might need large code changes
