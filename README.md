@@ -101,4 +101,17 @@ Contributions are welcome! If you have ideas, feature requests, or bug reports, 
 
 ---
 
+## 📄 License
+
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).  
+You are free to:
+- Use and modify the plugin
+- Share and distribute copies
+
+However, if you modify this plugin and run it on a server (even privately), you must make the source code of your modified version publicly available, as per the terms of the AGPLv3 license.
+
+See the [LICENSE](LICENSE) file for full details.
+
+---
+
 Made with ❤️ for the Minecraft community by Rhydium.
