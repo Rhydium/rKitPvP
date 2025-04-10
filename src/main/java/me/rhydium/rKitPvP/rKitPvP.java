@@ -10,6 +10,7 @@ import me.rhydium.rKitPvP.utils.AntiGriefUtility;
 import me.rhydium.rKitPvP.utils.KitPvPTabCompleter;
 import me.rhydium.rKitPvP.utils.KitSelectorGUI;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class rKitPvP extends JavaPlugin {
@@ -52,15 +53,28 @@ public final class rKitPvP extends JavaPlugin {
         // Register event listeners
         registerListeners();
 
+        for (Player online : getServer().getOnlinePlayers()) {
+            statsManager.initializePlayerStats(online);
+            scoreboardManager.createScoreboard(online);
+            scoreboardManager.updateScoreboard(online);
+        }
+
         // Tell console we're running!
         getLogger().info("KitPvP has been enabled.");
     }
 
     @Override
     public void onDisable() {
+        for (Player player : getServer().getOnlinePlayers()) {
+            statsManager.updateStatsInDatabase(player);
+            scoreboardManager.removeScoreboard(player);
+            combatManager.removeTag(player);
+        }
+
         if (databaseManager != null) {
             databaseManager.closeConnection();
         }
+
         getLogger().info("KitPvP is disabled!");
     }
 
