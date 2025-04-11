@@ -8,7 +8,7 @@ depend: [ PlaceholderAPI, WorldEdit, WorldGuard ]
 commands:
   kitpvp:
     description: Main KitPvP command with subcommands.
-    usage: /kitpvp <build|setspawn>
+    usage: /kitpvp <build|setspawn|setspawnregion|setpvpregion>
     permission: kitpvp.use
   spawn:
     description: Teleports the player to spawn.

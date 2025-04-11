@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class KitPvPCommand implements CommandExecutor {
@@ -17,6 +18,8 @@ public class KitPvPCommand implements CommandExecutor {
     public KitPvPCommand(rKitPvP plugin) {
         subCommands.put("build", new BuildCommand());
         subCommands.put("setspawn", new SetSpawnCommand(plugin));
+        subCommands.put("setspawnregion", new SetSpawnRegionCommand(plugin));
+        subCommands.put("setpvpregion", new SetPvPRegionCommand(plugin));
     }
 
     @Override
@@ -50,6 +53,9 @@ public class KitPvPCommand implements CommandExecutor {
         String getPermission();
         default String getNoPermissionMessage() {
             return "You do not have permission to use this command.";
+        }
+        default List<String> onTabComplete(Player player, String[] args) {
+            return List.of();
         }
     }
 
