@@ -1,18 +1,12 @@
 package me.rhydium.rKitPvP.commands;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
 import me.rhydium.rKitPvP.rKitPvP;
 import me.rhydium.rKitPvP.utils.WorldGuardUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SetSpawnRegionCommand implements KitPvPCommand.SubCommand {
 
