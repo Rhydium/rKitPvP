@@ -1,6 +1,7 @@
 # ⚔️ rKitPvP
 
 [![Java](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Rhydium/rKitPvP/gradle.yml?branch=main)
 [![License](https://img.shields.io/github/license/Rhydium/rKitPvP)](LICENSE)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21%2B-blueviolet)]()
 
