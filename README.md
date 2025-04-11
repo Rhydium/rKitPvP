@@ -48,6 +48,8 @@ Make sure the following plugins are installed:
 |--------|-------------|------------|
 | `/kitpvp build` | Toggle build mode | `kitpvp.use`, `kitpvp.admin.build` |
 | `/kitpvp setspawn` | Set the spawn location for KitPvP | `kitpvp.use`, `kitpvp.admin.setspawn` |
+| `/kitpvp setspawnregion` | Set the spawn region for KitPvP | `kitpvp.use`, `kitpvp.admin.setspawnregion` |
+| `/kitpvp setpvpregion` | Set the PvP region for KitPvP | `kitpvp.use`, `kitpvp.admin.setpvpregion` |
 | `/spawn` | Teleport to the spawn (5 sec cooldown) | `kitpvp.player.spawn` |
 
 > ⚠️ All subcommands under `/kitpvp` require `kitpvp.use`.
