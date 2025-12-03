@@ -1,7 +1,7 @@
 # ⚔️ rKitPvP
 
 [![Java](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Rhydium/rKitPvP/gradle.yml?branch=main)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Rhydium/rKitPvP/maven.yml?branch=main)
 [![License](https://img.shields.io/github/license/Rhydium/rKitPvP)](LICENSE)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21%2B-blueviolet)]()
 
@@ -30,7 +30,19 @@ Make sure the following plugins are installed:
 - [WorldEdit](https://enginehub.org/worldedit/)
 - [WorldGuard](https://enginehub.org/worldguard/)
 
-> ⚠️ This plugin has only been tested with **Minecraft API version 1.21**. There is no compatibility with earlier versions.
+> ⚠️ This plugin is built against **Paper 1.21.10**. There is no compatibility with earlier versions.
+
+---
+
+## 🛠️ Building from source
+
+This project now uses Maven. To compile the plugin locally, run:
+
+```bash
+mvn clean package
+```
+
+The compiled jar will be located at `target/rKitPvP-<version>.jar`.
 
 ---
 

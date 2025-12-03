@@ -1,7 +1,7 @@
 name: rKitPvP
-version: '1.0-SNAPSHOT'
+version: '${project.version}'
 main: me.rhydium.rKitPvP.rKitPvP
-api-version: '1.21'
+api-version: '1.21.4'
 authors: [ Rhydium <@rhydium> ]
 description: A lightweight, fully customizable KitPvP plugin for Minecraft servers.
 depend: [ PlaceholderAPI, WorldEdit, WorldGuard ]
