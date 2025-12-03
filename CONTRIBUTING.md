@@ -64,7 +64,7 @@ Typical plugin structure:
 
 When reporting a bug, please include the following:
 
-- Minecraft version and server type (e.g. Paper 1.21.4)
+- Minecraft version and server type (e.g. Paper 1.21.10)
 - Plugin version
 - Exact error messages (if any)
 - Steps to reproduce the issue
@@ -74,7 +74,7 @@ When reporting a bug, please include the following:
 ## ✅ Submitting a Pull Request
 
 1. Ensure your changes are tested and working.
-2. Run `./gradlew build` or your IDE’s build tool to make sure there are no errors.
+2. Run `mvn clean install` or your IDE’s build tool to make sure there are no errors.
 3. Open a pull request against the `main` branch.
 4. In your PR description, explain **what you changed** and **why**.
 5. Link any related issue with `Closes #123` or `Fixes #456`.

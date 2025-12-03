@@ -30,7 +30,7 @@ Make sure the following plugins are installed:
 - [WorldEdit](https://enginehub.org/worldedit/)
 - [WorldGuard](https://enginehub.org/worldguard/)
 
-> ⚠️ This plugin has only been tested with **Minecraft API version 1.21**. There is no compatibility with earlier versions.
+> ⚠️ This plugin has only been tested with **Minecraft API version 1.21** and built against **Paper 1.21.10**. There is no compatibility with earlier versions.
 
 ---
 
